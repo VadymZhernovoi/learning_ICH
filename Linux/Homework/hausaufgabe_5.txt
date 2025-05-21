@@ -1,0 +1,9 @@
+export VADYM_VARIABLE=210225-ptm
+date +%D > /opt/210225-ptm/vadym/.process_management ; echo "Welcome to Amazon server" >> /opt/210225-ptm/vadym/.process_management
+free -m | grep Mem | awk '{print "Общий объем оперативной памяти в MB:", $2}' >> /opt/210225-ptm/vadym/.process_management
+ps -ef | grep root | wc -l >> /opt/210225-ptm/vadym/.process_management
+env | grep VADYM_VAR >> /opt/210225-ptm/vadym/.process_management
+ps -ef | grep "/usr/sbin/sshd -D" | grep root | awk '{print "PID", $2, "PPID", $3}'
+# или
+ps -ef | grep "/usr/sbin/sshd -D" | grep -v grep | awk '{print "PID", $2, "PPID", $3}'
+scp ec2-user@linux.itcareerhub.de:/opt/210225-ptm/vadym/test.txt ~/Documents/ICH\ Linux\ \&\ Git

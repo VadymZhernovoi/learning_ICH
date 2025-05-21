@@ -1,0 +1,7 @@
+   0 # Буду себя проверять после каждого шага. Так сразу вижу результат!
+   1 mkdir -p /home/user/start ; cd /home/user/start ; > 1.txt ; ls -l
+   2 echo "Start" > 1.txt ; cat 1.txt
+   3 date +%D >> 1.txt ; cat 1.txt
+   4 mkdir -p /opt/task ; cat 1.txt > /opt/task/start.txt ; cd /opt/task ; tree /opt
+   5 ls -la / | tail -n4 >> start.txt ; cat start.txt
+   6 history > /tmp/hausaufgabe3.txt ; export_file /tmp/hausaufgabe3.txt

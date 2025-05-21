@@ -1,0 +1,8 @@
+   0 mkdir -p /home/animals/dogs /home/animals/cats /home/animals/fish
+   1 touch /home/animals/dogs/pluto /home/animals/cats/garfield /home/animals/fish/nemo
+   2 tree /home # это я чтобы себя проверить, так очень наглядно видно результат
+   3 touch /tmp/adam ; mkdir /home/humans ; cp /tmp/adam /home/humans/
+   4 touch /tmp/evA ; mv /tmp/evA /opt/eve ; mv /opt/eve /home/humans/ 
+   5 ls /home/humans
+   6 tree /home # это я ещё раз, чтобы себя проверить
+   7 history > /tmp/hausaufgabe2.txt ; export_file /tmp/hausaufgabe2.txt

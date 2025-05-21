@@ -1,0 +1,16 @@
+  336  ls -l
+  337  git clone git@github.com:VadymZhernovoi/new-repo.git
+  338  ls -l
+  339  cd new-repo
+  340  ls -la
+  341  git checkout -b feature
+  342  git branch
+  343  nano .gitignore
+  344  nano README.md
+  345  git add .gitignore README.md
+  346  git status
+  347  git commit -m "changed files .gitignore & README.md"
+  348  git push origin feature
+  349  git commit --amend
+  350  git checkout main
+  351  git merge feature
