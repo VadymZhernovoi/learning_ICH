@@ -23,8 +23,8 @@ def sum_all_s(num: int, start: int = 0, acc: int = 0) -> int:  # потрени�
     return acc + sum_all_s(num, start + 1, n)
 
 num = 43197
-#print("sum_all_n :", sum_all_n(num))
-#print("sum_all_s :", sum_all_s(num))
+print("sum_all_n :", sum_all_n(num))
+print("sum_all_s :", sum_all_s(num))
 
 '''
 2.  Сумма вложенных чисел
