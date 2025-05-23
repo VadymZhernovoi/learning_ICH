@@ -26,15 +26,14 @@ original_data = [
 def my_deep_copy(items: any) -> list():
     #print(items)
     if isinstance(items, list | set | tuple | dict):
-        if isinstance(items, list | set):
+        if isinstance(items, list | set | tuple):
             new_data = list()
             for item in items:
                 new_data.append(my_deep_copy(item))
-        elif isinstance(items, tuple):
-            new_data = list()
-            for item in items:
-                new_data.append(my_deep_copy(item))
-            new_data = tuple(new_data)
+            if isinstance(items, set):
+                new_data = set(new_data)
+            elif isinstance(items, tuple):
+                new_data = tuple(new_data)
         else:
             new_data = dict()
             for key, value in items.items():
@@ -48,6 +47,7 @@ print('        original_data:', original_data)
 new_data = my_deep_copy(original_data)
 print('             new_data:', new_data)
 new_data[1][1].append({1,2,3})
+new_data[2]["b"] = [12, 13, 14, 15]
 print('     changed new_data:', new_data)
 print('        original_data:', original_data)
 # print()
