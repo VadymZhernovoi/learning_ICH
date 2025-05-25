@@ -23,7 +23,12 @@ original_data = [
  15.5, # Число с плавающей точкой
  5 # Целое число
 ]
-def my_deep_copy(items: any) -> list():
+def my_deep_copy(items: list[any]) -> list[any]:
+    '''
+    Аналог deepcopy() с помощью рекурсии.
+    :param items: коллекция с любым количеством любой вложенности любых объектов.
+    :return: независимая копия коллекции
+    '''
     #print(items)
     if isinstance(items, list | set | tuple | dict):
         if isinstance(items, list | set | tuple):
@@ -48,6 +53,10 @@ new_data = my_deep_copy(original_data)
 print('             new_data:', new_data)
 new_data[1][1].append({1,2,3})
 new_data[2]["b"] = [12, 13, 14, 15]
+new_data[3] = 'DeepCopy'
+new_data[4][1] = (111,222,333)
+new_data[5] = 9999.123456789
+new_data[6] = 12345
 print('     changed new_data:', new_data)
 print('        original_data:', original_data)
 # print()
