@@ -6,27 +6,27 @@
     Введите делитель: 5a
     Ошибка: Введено некорректное число.
 '''
-def numb_division(a: float, b: float) -> float:
+def numb_division() -> float:
     '''
-    Деление двух чисел
+    Деление двух чисел, введенных пользователем.
+    Обрабатывает возможные ошибки и выводит на экран сообщения об ошибках.
     :param a: делимое
     :param b: делитель
     :return: результат деления
     '''
     try:
-        result = float(a) / float(b)
+        a = float(input("Введите делимое --> ").replace(',','.'))
+        b = float(input("Введите делитель --> ").replace(',','.'))
+        result = a / b
     except ValueError:
         print("Ошибка: Введено некорректное число.")
     except ZeroDivisionError:
         print("Ошибка: Делитель не может быть равен 0.")
     else:
+        print(f"Результат: {a} / {b} = {result}")
         return result
 
-a = input("Введите делимое --> ")
-b = input("Введите делитель --> ")
-c = numb_division(a, b)
-if c != None:
-    print(f"Результат: {a} / {b} = {c}")
+numb_division()
 
 '''
 2.  Логирование ошибок
@@ -40,13 +40,14 @@ logging.basicConfig(filename="errors.log",
                     level=logging.INFO)
 def numb_division_log(a: float, b: float) -> float:
     '''
-    Деление двух чисел
+    Деление двух чисел.
+    Обрабатывает возможные ошибки и записывает их в файл errors.log
     :param a: делимое
     :param b: делитель
     :return: результат деления
     '''
     try:
-        result = float(a) / float(b)
+        result = float(a.replace(',','.')) / float(b.replace(',','.'))
     except ValueError:
         logging.error("Ошибка: Введено некорректное число.")
     except ZeroDivisionError:
