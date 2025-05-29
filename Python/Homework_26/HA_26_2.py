@@ -24,9 +24,9 @@ def get_files(files: list, delete: str='n'):
         if delete.lower() == "y":
             if os.path.exists(file):
                 os.remove(file)
-                print(file.replace('./', ''), "- удалён")
+                print(file.lstrip('./'), "- удалён")
         else:
-            print("-", file.replace('./', ''))
+            print("-", file.lstrip('./'))
 
 if len(sys.argv) == 1:
     print("Ошибка: отсутсвуют аргументы <путь к директории> и <расширение файлов>")
