@@ -22,7 +22,7 @@ if len(sys.argv) == 1:
     sys.exit(1)
 path = sys.argv[1]
 if not os.path.exists(path):
-    print("Ошибка: папка", path, "не существует!")
+    print(f"Ошибка: папка '{path}' не существует!")
     sys.exit(1)
 
 os.chdir(path)
