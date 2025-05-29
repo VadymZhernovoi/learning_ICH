@@ -35,7 +35,7 @@ for item in os.listdir(path):
     else:
         dirs.append(item)
 
-print("Содержимое директории ", path, ":", sep='')
+print(f"Содержимое директории '{path}':")
 print("Папки:")
 for item in dirs:
     print("-", item)
