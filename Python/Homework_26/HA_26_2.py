@@ -1,7 +1,3 @@
-import os
-import sys
-from dataclasses import replace
-
 '''
 2.  Поиск и удаление файлов с указанным расширением
     Напишите программу, которая:
@@ -20,6 +16,9 @@ from dataclasses import replace
     Вы хотите удалить эти файлы? (y/n): y
     Удаление завершено.
 '''
+import os
+import sys
+
 def get_files(files: list, delete: str='n'):
     for file in files:
         if delete.lower() == "y":
@@ -54,9 +53,8 @@ if found:
     print(f"Найдены файлы с расширением '.{ext}' :")
     get_files(found)
     delete = input("Вы хотите удалить эти файлы? (y/n): ")
-    print(delete)
     if delete.lower() == "y":
-        get_files(found, delete)
+        get_files(found, "y")
         print("Удаление завершено.")
 else:
     print(f"Файлы с расширением .{ext} не найдены в папке '{path}' и во всех вложенных папках.")

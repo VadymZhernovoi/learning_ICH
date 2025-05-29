@@ -16,6 +16,7 @@
 '''
 import os
 import sys
+
 if len(sys.argv) == 1:
     print("Ошибка: отсутствует аргумент <путь к директории>.")
     sys.exit(1)
@@ -36,8 +37,8 @@ for item in os.listdir(path):
 
 print("Содержимое директории ", path, ":", sep='')
 print("Папки:")
-for i in dirs:
-    print("-", i)
+for item in dirs:
+    print("-", item)
 print("Файлы:")
-for i in files:
-    print("-", i)
+for item in files:
+    print("-", item)
