@@ -24,6 +24,9 @@ path = sys.argv[1]
 if not os.path.exists(path):
     print(f"Ошибка: папка '{path}' не существует!")
     sys.exit(1)
+elif not os.path.isdir(path):
+    print(f"Ошибка: '{path}' не является папкой!")
+    sys.exit(1)
 
 os.chdir(path)
 
@@ -32,7 +35,7 @@ dirs = list()
 for item in os.listdir(path):
     if os.path.isfile(item):
         files.append(item)
-    else:
+    elif os.path.isdir(item):
         dirs.append(item)
 
 print(f"Содержимое директории '{path}':")
