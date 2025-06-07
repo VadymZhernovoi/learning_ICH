@@ -67,7 +67,7 @@ while True:
 fruits = ["Apple", "Banana", "Orange"]
 vegetables = ["Carrot", "Tomato", "Cucumber"]
 dairy = ["Milk", "Cheese", "Yogurt"]
-from typing import Iterable, Generator
+from typing import Generator
 def chain_list(*list: list[str]) -> Generator[str]:
     '''
     Принимает произвольное количество списков со строками и возвращает генератор,
