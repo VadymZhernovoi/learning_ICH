@@ -25,6 +25,9 @@
     Monday: Gym, Work, Read book
     Нажмите 'Enter' для получения плана: q
 '''
+
+# * - с возможностью изменять список задач на текущий день
+
 weekly_schedule = {
     "Monday": ["Gym", "Work", "Read book"],
     "Tuesday": ["Meeting", "Work", "Study Python"],
@@ -35,12 +38,36 @@ weekly_schedule = {
     "Sunday": ["Family time", "Rest"]
     }
 import itertools
-
-tasks = itertools.cycle(list(weekly_schedule.items()))
-
+from collections import defaultdict
+def get_task(weekly_schedule : dict):
+    return itertools.cycle(list(weekly_schedule.items()))
+tasks = get_task(weekly_schedule)
+day = ""
 while True:
-    if input("Нажмите 'Enter' для получения плана: "):
+    if day:
+        inp = input(f"Нажмите 'Enter' - получить новый план, либо введите: 'e' - изменить план на {day}, или 'q' - выход --> ", )
+    else:
+        inp = input(f"Нажмите 'Enter' - получить план или 'q' - выход --> ", )
+    if inp not in ("", "e", "q"):
+        print("Ошибка ввода! Может быть только 'e', 'q' или пусто.")
+        continue
+    if inp.lower() == 'q':
         break
+    elif inp ==  'e':
+        task = weekly_schedule[day]
+        new_str = input(f"Hа {day} было запланировано: {", ".join(task)} \nВедите через запятую новые задачи --> ").strip()
+        new_tasks = [t.strip() for t in new_str.split(",") if new_str.strip()]
+        if not new_tasks:
+            print("Ошибка! Неверно введены/отсутствуют новые задачи.")
+            continue
+        weekly_schedule = defaultdict()
+        weekly_schedule[day] = new_tasks
+        while True:  # чтобы дальше продолжить iter с этого числа
+            d, t = next(tasks)
+            if d == day:
+                break
+            weekly_schedule[d] = t
+        tasks = get_task(weekly_schedule)
     day, task = next(tasks)
     print(f"{day}: {', '.join(task)}")
 
