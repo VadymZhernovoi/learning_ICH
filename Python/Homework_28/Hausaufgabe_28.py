@@ -39,8 +39,10 @@ weekly_schedule = {
     }
 import itertools
 from collections import defaultdict
+
 def get_task(weekly_schedule : dict):
     return itertools.cycle(list(weekly_schedule.items()))
+
 tasks = get_task(weekly_schedule)
 day = ""
 while True:
@@ -48,26 +50,27 @@ while True:
         inp = input(f"Нажмите 'Enter' - получить новый план, либо введите: 'e' - изменить план на {day}, или 'q' - выход --> ", )
     else:
         inp = input(f"Нажмите 'Enter' - получить план или 'q' - выход --> ", )
-    if inp not in ("", "e", "q"):
+    if inp not in ("", "e", "у", "q", "й"):
         print("Ошибка ввода! Может быть только 'e', 'q' или пусто.")
         continue
-    if inp.lower() == 'q':
+    if inp.lower() in ('q', "й"):
         break
-    elif inp ==  'e':
+    elif inp in ("e", "у"):
         task = weekly_schedule[day]
         new_str = input(f"Hа {day} было запланировано: {", ".join(task)} \nВедите через запятую новые задачи --> ").strip()
         new_tasks = [t.strip() for t in new_str.split(",") if new_str.strip()]
         if not new_tasks:
-            print("Ошибка! Неверно введены/отсутствуют новые задачи.")
+            print(f"Внимание! На {day} отсутствуют новые задачи.")
             continue
         weekly_schedule = defaultdict()
         weekly_schedule[day] = new_tasks
-        while True:  # чтобы дальше продолжить iter с этого числа
+        while True:  # чтобы дальше продолжить iterator с этого дня
             d, t = next(tasks)
             if d == day:
                 break
             weekly_schedule[d] = t
-        tasks = get_task(weekly_schedule)
+        tasks = get_task(weekly_schedule) # обновляем iterator
+        print(f"План на {day} был изменён.")
     day, task = next(tasks)
     print(f"{day}: {', '.join(task)}")
 
@@ -91,6 +94,7 @@ while True:
     cheese
     yogurt
 '''
+print()
 fruits = ["Apple", "Banana", "Orange"]
 vegetables = ["Carrot", "Tomato", "Cucumber"]
 dairy = ["Milk", "Cheese", "Yogurt"]
@@ -124,6 +128,7 @@ for item in result:
     ...
     Jacket - Black - L
 '''
+print()
 clothes = ["T-shirt", "Jeans", "Jacket"]
 colors = ["Red", "Blue", "Black"]
 sizes = ["S", "M", "L"]
