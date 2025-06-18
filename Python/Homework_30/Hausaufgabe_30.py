@@ -41,17 +41,22 @@ from datetime import datetime
 from collections import defaultdict
 report_json = defaultdict()
 curs_count = defaultdict()
-with (open("student_courses.json", "r") as file_in, open("student_courses_report.json", "w") as file_out):
-    source_json = json.load(file_in)
-    report_json["total_students"] = len(source_json)
-    age_all = 0
-    for student in source_json:
-        birth_d = datetime.strptime(student["birth_date"], "%d.%m.%Y")
-        enrollment_d = datetime.strptime(student["enrollment_date"], "%d.%m.%Y")
-        age_all += enrollment_d.year - birth_d.year - ((enrollment_d.month, enrollment_d.day) < (birth_d.month, birth_d.day))
-        for curs in student["courses"]:
-            curs_count[curs] = curs_count.get(curs, 0) + 1
-    report_json["average_enrollment_age"] = round(age_all / report_json["total_students"], 1)
-    report_json["students_per_course"] = dict(sorted(curs_count.items()))
-    # print(report_json)
-    json.dump(report_json, file_out, indent=2)
+file_source = "student_courses.json"
+file_report = "student_courses_report.json"
+try:
+    with (open(file_source, "r") as file_in, open(file_report, "w") as file_out):
+        source_json = json.load(file_in)
+        report_json["total_students"] = len(source_json)
+        age_all = 0
+        for student in source_json:
+            birth_d = datetime.strptime(student["birth_date"], "%d.%m.%Y")
+            enrollment_d = datetime.strptime(student["enrollment_date"], "%d.%m.%Y")
+            age_all += enrollment_d.year - birth_d.year - ((enrollment_d.month, enrollment_d.day) < (birth_d.month, birth_d.day))
+            for curs in student["courses"]:
+                curs_count[curs] = curs_count.get(curs, 0) + 1
+        report_json["average_enrollment_age"] = round(age_all / report_json["total_students"], 1)
+        report_json["students_per_course"] = dict(sorted(curs_count.items()))
+        # print(report_json)
+        json.dump(report_json, file_out, indent=2)
+except FileNotFoundError:
+    print(f"Файл {file_source} не найден.")
