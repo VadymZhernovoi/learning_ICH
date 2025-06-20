@@ -51,9 +51,7 @@ try:
         for student in source_json:
             birth_d = datetime.strptime(student["birth_date"], "%d.%m.%Y")
             enrollment_d = datetime.strptime(student["enrollment_date"], "%d.%m.%Y")
-            age_all += enrollment_d.year - birth_d.year
-            if (enrollment_d.month, enrollment_d.day) < (birth_d.month, birth_d.day):
-                age_all -= 1
+            age_all += enrollment_d.year - birth_d.year - ((enrollment_d.month, enrollment_d.day) < (birth_d.month, birth_d.day))
             for curs in student["courses"]:
                 curs_count[curs] = curs_count.get(curs, 0) + 1
         report_json["average_enrollment_age"] = round(age_all / report_json["total_students"], 1)
