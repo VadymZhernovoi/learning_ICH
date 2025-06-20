@@ -40,7 +40,7 @@ import json
 from datetime import datetime
 from collections import defaultdict
 report_json = defaultdict()
-curs_count = defaultdict()
+curs_count = defaultdict(int)
 file_source = "student_courses.json"
 file_report = "student_courses_report.json"
 try:
@@ -53,7 +53,7 @@ try:
             enrollment_d = datetime.strptime(student["enrollment_date"], "%d.%m.%Y")
             age_all += enrollment_d.year - birth_d.year - ((enrollment_d.month, enrollment_d.day) < (birth_d.month, birth_d.day))
             for curs in student["courses"]:
-                curs_count[curs] = curs_count.get(curs, 0) + 1
+                curs_count[curs] += 1
         report_json["average_enrollment_age"] = round(age_all / report_json["total_students"], 1)
         report_json["students_per_course"] = dict(sorted(curs_count.items()))
         # print(report_json)
