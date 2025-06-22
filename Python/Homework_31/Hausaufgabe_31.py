@@ -11,15 +11,15 @@ text = "The events N 123456 happened on 15/03/2025, 01.12.2024 and 09-09-2023. D
 28/02/2022
 '''
 import re
-pattern = r"\d{2}/\d{2}/\d{4}|\d{2}-\d{2}-\d{4}|\d{2}\.\d{2}\.\d{4}"
+pattern = re.compile(r"\d{2}/\d{2}/\d{4}|\d{2}-\d{2}-\d{4}|\d{2}\.\d{2}\.\d{4}")
 text = "The events N 123456 happened on 15/03/2025, 01.12.2024 and 09-09-2023. Deadline: 28/02/2022."
 print("итератор finditer:")
-matches = re.finditer(pattern, text)
+matches = pattern.finditer(text)
 for match in matches:
     print(match.group())
 
 print("список findall:")
-matches = re.findall(pattern, text)
+matches = pattern.findall(text)
 for match in matches:
     print(match)
 
@@ -36,12 +36,12 @@ tag_input = "python, data-science / machine-learning; AI neural-networks"
 '''
 tag_input = "python  ,, data-science   // , ; / machine-learning; AI neural-networks"
 print()
-pattern = r"[^,;/\s]+"
+pattern = re.compile(r"[^,;/\s]+")
 print("findall:")
-matches = re.findall(pattern, tag_input)
+matches = pattern.findall(tag_input)
 print(matches)
 # Удалить лишние пробелы и пустые значения.
-matches = [tag.strip() for tag in re.findall(pattern, tag_input) if tag] # хотя это лишнее - '\s' и '+' и так не дают лишних пробелов и пустых значений
+matches = [tag.strip() for tag in pattern.findall(tag_input) if tag] # хотя это лишнее - '\s' и '+' и так не дают лишних пробелов и пустых значений
 print(matches)
 
 print("split:")
