@@ -49,6 +49,7 @@ def logger():
             records.append(f"{event}: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}")
         return records
     return set_log
+
 log = logger()
 log("Загрузка данных")
 log("Обработка завершена")
@@ -75,6 +76,7 @@ def frame(func):
         func()
         print("-" * 50)
     return wrapper
+
 @frame
 def say_hello():
     print("Привет, игрок!")
