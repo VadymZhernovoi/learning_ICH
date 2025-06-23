@@ -70,7 +70,9 @@ def say_hello():
 Привет, игрок!
 --------------------------------------------------
 '''
+from functools import wraps
 def frame(func):
+    @wraps(func)
     def wrapper():
         print("-" * 50)
         func()
