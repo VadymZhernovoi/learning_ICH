@@ -33,8 +33,8 @@ def measure_time(func):
             start = time()
             result = func(*args, **kwargs)
             runtime += time() - start
-
-        print(f"Среднее время выполнения для {repeat} вызовов: {runtime / repeat:.2f}")
+        avg = runtime / repeat
+        print(f"Среднее время выполнения для {repeat} вызовов: {avg:.2f}")
 
         return result
 
@@ -87,8 +87,8 @@ def measure_time(repeat: int=10):
                 start = time()
                 result = func(*args, **kwargs)
                 runtime += time() - start
-
-            print(f"Среднее время выполнения для {repeat} вызовов: {runtime / repeat:.2f}")
+            avg = runtime / repeat
+            print(f"Среднее время выполнения для {repeat} вызовов: {avg:.2f}")
 
             return result
 
@@ -96,14 +96,12 @@ def measure_time(repeat: int=10):
 
     return decorator
 
-
 @measure_time(10)
 def compute():
     total = 0
     for i in range(10_000_000):
         total += i
     return total
-
 
 res = compute()
 print(f"Результат: {res}")
