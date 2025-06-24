@@ -28,7 +28,7 @@ def measure_time(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         repeat = 5
-        runtime, result = 0, 0
+        runtime = 0
         for _ in range(repeat):
             start = time()
             result = func(*args, **kwargs)
@@ -82,7 +82,7 @@ def measure_time(repeat: int=10):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            runtime, result = 0, 0
+            runtime = 0
             for _ in range(repeat):
                 start = time()
                 result = func(*args, **kwargs)
