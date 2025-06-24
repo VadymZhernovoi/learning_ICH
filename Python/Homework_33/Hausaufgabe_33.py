@@ -31,7 +31,7 @@ def measure_time(func):
         runtime, result = 0, 0
         for _ in range(repeat):
             start = time()
-            result = func()
+            result = func(*args, **kwargs)
             runtime += time() - start
 
         print(f"Среднее время выполнения для {repeat} вызовов: {runtime / repeat:.2f}")
@@ -85,7 +85,7 @@ def measure_time(repeat: int=10):
             runtime, result = 0, 0
             for _ in range(repeat):
                 start = time()
-                result = func()
+                result = func(*args, **kwargs)
                 runtime += time() - start
 
             print(f"Среднее время выполнения для {repeat} вызовов: {runtime / repeat:.2f}")
