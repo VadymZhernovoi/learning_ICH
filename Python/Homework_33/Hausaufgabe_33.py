@@ -13,7 +13,6 @@ def compute():
 Среднее время выполнения для 5 вызовов: 0.21 секунд
 Результат: 49999995000000
 """
-from functools import wraps
 from time import time
 
 def measure_time(func):
@@ -25,13 +24,12 @@ def measure_time(func):
     :param func:
     :return: результат последнего вызова функции
     """
-    @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper():
         repeat = 5
         runtime = 0
         for _ in range(repeat):
             start = time()
-            result = func(*args, **kwargs)
+            result = func()
             runtime += time() - start
         avg = runtime / repeat
         print(f"Среднее время выполнения для {repeat} вызовов: {avg:.2f}")
@@ -80,12 +78,11 @@ def measure_time(repeat: int=10):
     :return: результат последнего вызова функции
     """
     def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper():
             runtime = 0
             for _ in range(repeat):
                 start = time()
-                result = func(*args, **kwargs)
+                result = func()
                 runtime += time() - start
             avg = runtime / repeat
             print(f"Среднее время выполнения для {repeat} вызовов: {avg:.2f}")
