@@ -48,7 +48,40 @@ print("Новая площадь:", rect.get_area())
 print()
 
 
-class Counter:
+# не совсем понял когда должен печататься результат, поэтому сделал два варианта
+
+class Counter1:
+    """ Создаёт объект простой счётчик. Счётчик начинается с нуля."""
+
+    def __init__(self):
+        self.cnt = 0
+
+    def set_increment(self):
+        self.cnt += 1
+        print(f"Значение увеличено, текущее: {self.cnt}")
+
+    def set_decrement(self):
+        self.cnt -= 1
+        print(f"Значение уменьшено, текущее: {self.cnt}")
+
+    def get_status(self):
+        return self.cnt
+
+
+cnt1 = Counter1()
+
+for _ in range(3):
+    cnt1.set_increment()
+
+cnt1.set_decrement()
+
+print("Текущее значение:", cnt1.get_status())
+
+# или так
+print()
+
+
+class Counter2:
     """ Создаёт объект простой счётчик. Счётчик начинается с нуля."""
 
     def __init__(self):
@@ -66,11 +99,11 @@ class Counter:
         return self.cnt
 
 
-cnt1 = Counter()
+cnt2 = Counter2()
 
 for _ in range(3):
-    print("Значение увеличено, текущее:", cnt1.set_increment())
+    print(f"Значение увеличено, текущее: {cnt2.set_increment()}")
 
-print("Значение уменьшено, текущее:", cnt1.set_decrement())
+print(f"Значение уменьшено, текущее: {cnt2.set_decrement()}")
 
-print("Текущее значение:", cnt1.get_status())
+print(f"Текущее значение: {cnt2.get_status()}")
