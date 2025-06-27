@@ -15,6 +15,7 @@
 
 class Rectangle:
     """ Создаёт объект прямоугольник с двумя атрибутами: высота и ширина """
+
     def __init__(self, width, height):
         self.width = width
         self.height = height
@@ -46,8 +47,10 @@ print("Новая площадь:", rect.get_area())
 """
 print()
 
+
 class Counter:
     """ Создаёт объект простой счётчик. Счётчик начинается с нуля."""
+
     def __init__(self):
         self.cnt = 0
 
@@ -61,6 +64,7 @@ class Counter:
 
     def get_status(self):
         return self.cnt
+
 
 cnt1 = Counter()
 
