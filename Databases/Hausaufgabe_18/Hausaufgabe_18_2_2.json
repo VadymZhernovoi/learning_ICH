@@ -1,0 +1,36 @@
+// 2.
+//    Какой из них имеет самый высокий рейтинг?
+
+[
+  {
+    $match:
+      {
+        "imdb.rating": {
+          $gt: 8
+        },
+        year: {
+          $gte: 2015,
+          $lte: 2023
+        }
+      }
+  },
+  {
+    $sort:
+      {
+        "imdb.rating": -1
+      }
+  },
+  {
+    $limit:
+      1
+  },
+  {
+    $project:
+      {
+        _id: 0,
+        Title: "$title",
+        Rating: "$imdb.rating",
+        Year: "$year"
+      }
+  }
+]
