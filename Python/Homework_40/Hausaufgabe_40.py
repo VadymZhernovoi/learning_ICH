@@ -39,6 +39,9 @@ Is newer: True
 from datetime import datetime
 from functools import total_ordering
 
+class DateFormatError(Exception):
+    """Вызывается, если неправильно передана дата"""
+    pass
 
 @total_ordering
 class Email:
@@ -49,8 +52,6 @@ class Email:
         self.subject = subject
         self.body = body
         self.date = Email.check_date(date) # чуть-чуть заморочился
-        if self.date == 0:
-            raise ValueError(f"Неправильный формат даты ({date})")
 
     def __eq__(self, other):
         if not isinstance(other, Email):
@@ -75,24 +76,33 @@ class Email:
     @staticmethod
     def check_date(date):
         if isinstance(date, str):
+            date_ret = 0
             formats = ["%Y-%m-%d", "%Y/%m/%d", "%Y.%m.%d"]  # Добавьте другие форматы
             for format_d in formats:
                 try:
-                    return datetime.strptime(date, format_d)
+                    date_ret = datetime.strptime(date, format_d)
+                    return date_ret
                 except ValueError:
-                    return 0
+                    pass
+            if date_ret == 0:
+                raise DateFormatError(f"Неправильный формат даты ({date})")
         elif isinstance(date, int):
             try:
                 return datetime.strptime(str(date), "%Y%m%d")
             except ValueError:
-                return 0
+                raise DateFormatError(f"Неправильный формат даты ({date})")
         elif isinstance(date, datetime):
             return date
         else:
-            return 0
+            raise DateFormatError(f"Неправильный формат даты ({date})")
 
-#e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", "2024-06-10")
-e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 20240609)
+try:
+    e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 2024060)
+    #e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", "2024-06.10")
+except DateFormatError as e:
+    print("Error:", e)
+    
+e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 20240610)
 #e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", datetime(2024, 6, 10))
 e2 = Email("bob@example.com", "alice@example.com", "Report", "", datetime(2024, 6, 11))
 
