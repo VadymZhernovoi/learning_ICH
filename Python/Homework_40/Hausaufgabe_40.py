@@ -39,9 +39,12 @@ Is newer: True
 from datetime import datetime
 from functools import total_ordering
 
-class DateFormatError(Exception):
+class InvalidDateFormatError(TypeError):
     """Вызывается, если неправильно передана дата"""
-    pass
+
+    def __init__(self, date):
+        super().__init__(f"Неправильный формат даты ({date})")
+
 
 @total_ordering
 class Email:
@@ -85,24 +88,24 @@ class Email:
                 except ValueError:
                     pass
             if date_ret == 0:
-                raise DateFormatError(f"Неправильный формат даты ({date})")
+                raise InvalidDateFormatError(date)
         elif isinstance(date, int):
             try:
                 return datetime.strptime(str(date), "%Y%m%d")
             except ValueError:
-                raise DateFormatError(f"Неправильный формат даты ({date})")
+                raise InvalidDateFormatError(date)
         elif isinstance(date, datetime):
             return date
         else:
-            raise DateFormatError(f"Неправильный формат даты ({date})")
+            raise InvalidDateFormatError(date)
 
 try:
-    e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 2024060)
-    #e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", "2024-06.10")
-except DateFormatError as e:
+    #e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 2024060)
+    e0 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", "2024-06.10")
+except InvalidDateFormatError as e:
     print("Error:", e)
-    
 e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", 20240610)
+#e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", "2024-06-10")
 #e1 = Email("alice@example.com", "bob@example.com", "Meeting", "Let's meet at 10am", datetime(2024, 6, 10))
 e2 = Email("bob@example.com", "alice@example.com", "Report", "", datetime(2024, 6, 11))
 
