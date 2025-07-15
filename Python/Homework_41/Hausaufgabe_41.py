@@ -63,7 +63,6 @@ with pymysql.connect(**config) as connection:
                 country_sel = tuple(filter(lambda x: x[0] == string, countries))[0]
             except IndexError:
                 print(f"Ошибка! Страна {string} в списке стран не найдена.")
-                pass
 
         if country_sel:
             cities = list()
