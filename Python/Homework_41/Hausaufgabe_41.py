@@ -56,8 +56,14 @@ with pymysql.connect(**config) as connection:
             if 1 <= num <= len(countries):
                 enumerate(countries, 1)
                 country_sel = countries[num - 1]
+            else:
+                print(f"Ошибка! Страна под номером {string} в списке стран не найдена.")
         else:
-            country_sel = tuple(filter(lambda x: x[0] == string, countries))[0]
+            try:
+                country_sel = tuple(filter(lambda x: x[0] == string, countries))[0]
+            except IndexError:
+                print(f"Ошибка! Страна {string} в списке стран не найдена.")
+                pass
 
         if country_sel:
             cities = list()
@@ -68,3 +74,4 @@ with pymysql.connect(**config) as connection:
 
             for i, item in enumerate(cities, 1):
                 print(f"{i}. {item[0]} - {item[1]}")
+
