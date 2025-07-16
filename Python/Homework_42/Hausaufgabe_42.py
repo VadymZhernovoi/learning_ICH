@@ -20,11 +20,12 @@ connection = pymysql.connect(**config)
 
 with pymysql.connect(**config) as connection:
     with connection.cursor() as cursor:
-        db_name = "notes_app_210225_Zhernovoi"
-        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
-        cursor.execute(f"USE {db_name}")
         try:
-            cursor.execute("SHOW TABLES")
+            db_name = "notes_app_210225_Zhernovoi"
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+            cursor.execute(f"USE {db_name}")
+
+            cursor.execute("SHOW TABLES") # проверяем на selected 
         except pymysql.err.OperationalError:
             print(f"Database '{db_name}' not selected or not created.")
             exit()

@@ -1,0 +1,91 @@
+// 1. Найдите трек с наивысшими показателями Danceability и Energy.
+db.getCollection('Spotify_Youtube')
+  .find(
+    {},
+    {
+      Track: 1,
+      Danceability: 1,
+      Energy: 1,
+      _id: 0
+    }
+  )
+  .sort({ Danceability: -1, Energy: -1 })
+  .limit(1);
+
+// 2. У какого трека (но не compilation) самая большая длительность?
+db.getCollection('Spotify_Youtube')
+  .find(
+    { Album_type: { $ne: 'compilation' } },
+    {
+      Album_type: 1,
+      Track: 1,
+      Duration_ms: 1,
+      _id: 0
+    }
+  )
+  .sort({ Duration_ms: -1 })
+  .limit(1);
+ // или через агрегацию
+ db.getCollection('Spotify_Youtube').aggregate(
+  [
+    {
+      $match: {
+        Album_type: { $ne: 'compilation' }
+      }
+    },
+    { $sort: { Duration_ms: -1 } },
+    { $limit: 1 },
+    {
+      $project: {
+        Title: 1,
+        Duration_ms: 1,
+        _id: 0
+      }
+    }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
+
+// 3. В каком одном альбоме самое большее количество треков?
+db.getCollection('Spotify_Youtube').aggregate(
+  [
+    {
+      $group: {
+        _id: '$Album',
+        MaxTrack: { $sum: 1 }
+      }
+    },
+    { $sort: { MaxTrack: -1 } },
+    {
+      $project: {
+        _id: 0,
+        Album: '$_id',
+        MaxTrack: 1
+      }
+    },
+    { $limit: 1 }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
+
+// 4. Сколько просмотров видео на youtube у трека с самым высоким количеством прослушиваний на spotify (Stream)?
+db.getCollection('Spotify_Youtube')
+  .find(
+    {},
+    { Track: 1, Views: 1, Stream: 1, _id: 0 }
+  )
+  .sort({ Stream: -1 })
+  .limit(1);
+
+// 5. Экспортируйте 20 самых популярных (прослушивания или просмотры) треков по версиям youtube и spotify и импортируйте
+//    в базу ich_edit их с именами top20youtube и top20spotify, и добавьте им свои имена для уникальности.
+
+db.getCollection('Spotify_Youtube')   // для top20spotify_210225_Zhernovoi
+  .find({})
+  .sort({ Stream: -1, Track: 1 })
+  .limit(20);
+
+db.getCollection('Spotify_Youtube')   // для top20youtube_210225_Zhernovoi
+  .find({})
+  .sort({ Views: -1, Track: 1 })
+  .limit(20);
