@@ -8,8 +8,7 @@
 Пример вывода:
 3 products inserted.
 """
-from pymongo import MongoClient
-from pymongo import errors
+from pymongo import MongoClient, errors
 
 try:
     client = MongoClient(
