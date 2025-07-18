@@ -80,12 +80,50 @@ db.getCollection('Spotify_Youtube')
 // 5. Экспортируйте 20 самых популярных (прослушивания или просмотры) треков по версиям youtube и spotify и импортируйте
 //    в базу ich_edit их с именами top20youtube и top20spotify, и добавьте им свои имена для уникальности.
 
-db.getCollection('Spotify_Youtube')   // для top20spotify_210225_Zhernovoi
-  .find({})
-  .sort({ Stream: -1, Track: 1 })
-  .limit(20);
+// Выгружать/загружать вручную не интересно (мы уже делали сто раз), а т.к. в ich_edit у нас не такая авторизация,
+// что позволяет запустить такую агрегацию, то сделал следующее:
+//   - на своём кластере сделал базу "ich", загрузил туда вручную:) коллекцию Spotify_Youtube (места мало, поэтому 5000 документов)
+//   - на своём кластере сделал базу "ich_edit"
+//   - в БД "ich" на коллекции Spotify_Youtube сделал две агрегации нижеперечисленные агрегации и запустил!
+// Всё отработало супер быстро и агрегации оказались супер простые:
 
-db.getCollection('Spotify_Youtube')   // для top20youtube_210225_Zhernovoi
-  .find({})
-  .sort({ Views: -1, Track: 1 })
-  .limit(20);
+// top20spotify_210225_Zhernovoi
+[
+  {
+    $sort: {
+      Stream: -1
+    }
+  },
+  {
+    $limit: 20
+  },
+  {
+    $set: {}
+  },
+  {
+    $out: {
+      db: "ich_edit",
+      coll: "top20spotify_210225_Zhernovoi"
+    }
+  }
+]
+// top20youtube_210225_Zhernovoi
+[
+  {
+    $sort: {
+      Views: -1
+    }
+  },
+  {
+    $limit: 20
+  },
+  {
+    $set: {}
+  },
+  {
+    $out: {
+      db: "ich_edit",
+      coll: "top20youtube_210225_Zhernovoi"
+    }
+  }
+]
