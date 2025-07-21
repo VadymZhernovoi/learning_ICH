@@ -14,7 +14,7 @@ from pymongo import MongoClient, errors
 def print_result_update(coll_products, cnt_updated):
     print(f"\nPrices updated for {cnt_updated} products\n")
     print("Updated products:")
-    for product in coll_products.find({}, {"name": 1, "price": 1, "_id": 0}):
+    for product in coll_products.find({}):
         print(f"- {product["name"]} - ${product["price"]}")
 
 
