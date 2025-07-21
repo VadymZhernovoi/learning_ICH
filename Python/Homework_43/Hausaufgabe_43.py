@@ -10,6 +10,14 @@
 """
 from pymongo import MongoClient, errors
 
+
+def print_result_update(coll_products, cnt_updated):
+    print(f"\nPrices updated for {cnt_updated} products\n")
+    print("Updated products:")
+    for product in coll_products.find({}, {"name": 1, "price": 1, "_id": 0}):
+        print(f"- {product["name"]} - ${product["price"]}")
+
+
 try:
     client = MongoClient(
         "mongodb://ich_editor:verystrongpassword"
@@ -24,7 +32,7 @@ try:
     coll_products = db[collection_name]
 
     # очищает коллекцию перед началом
-    if coll_products.estimated_document_count() > 0: # удалим коллекцию, если она есть, а .insert_ создаст автоматом новую
+    if coll_products.estimated_document_count() > 0:  # удалим коллекцию, если она есть, а .insert_ создаст автоматом новую
         coll_products.drop()
         print(f"Deleted collection '{collection_name}'.\n")
     # или так
@@ -52,12 +60,21 @@ try:
     # - Notebook - $4.79
     # - Backpack - $30.00
 
-    result = coll_products.update_many({},{"$mul": {"price": 1.2}})
-    print(f"Prices updated for {result.modified_count} products\n")
+    coll = coll_products.find({})
+    update_cnt = 0
+    for rec in coll:
+        new_price = round(rec["price"] * 1.2, 2)
+        result = coll_products.update_one({"_id": rec["_id"]}, {"$set": {"price": new_price}})
+        update_cnt += result.modified_count
 
-    print("Updated products:")
-    for product in coll_products.find({}, {"name": 1, "price": 1, "_id": 0}):
-        print(f"- {product["name"]} - ${product["price"]:.2f}")
+    print_result_update(coll_products, update_cnt)
+
+    # или так интереснее
+    result = coll_products.update_many({}, [
+        {"$set": {"price": {"$round": [{"$multiply": ["$price", 1.2]}, 2]}}}
+    ])
+
+    print_result_update(coll_products, result.modified_count)
 
 except errors.WriteError:
     print(f"Не удаётся записать в коллекцию '{collection_name}'")
