@@ -1,0 +1,41 @@
+// 6. Найти рестораны на 'Staten Island' в названии которых есть слово pizza (Pizza и PIZZA тоже считаются)
+db.getCollection('restaurants')
+  .find(
+    {
+      borough: 'Staten Island',
+      name: RegExp('pizza', 'i')
+    },
+    { _id: 0, name: 1, borough: 1 }
+  )
+  .sort({ name: 1 });
+
+// 7. Выведите названия 5 лучших по среднему значению отзывов ($avg: "$grades.score")
+
+db.getCollection('restaurants').aggregate(
+  [
+    { $unwind: { path: '$grades' } },
+    {
+      $group: {
+        _id: '$name',
+        'Средняя оценка': {
+          $avg: '$grades.score'
+        }
+      }
+    },
+    { $sort: { 'Средняя оценка': -1 } },
+    { $limit: 5 },
+    {
+      $project: {
+        _id: 0,
+        'Ресторан': '$_id',
+        'Средняя оценка': 1
+      }
+    }
+  ],
+  { maxTimeMS: 60000, allowDiskUse: true }
+);
+// выводит поля в обратном порядке - сначала 'Средняя оценка', потом 'Ресторан'
+// я погуглил:
+//    В выводе Compass / mongo shell изменить порядок нельзя (кроме как поставить _id — он по соглашению появится первым).
+//    Если строго нужен вывод в определённом порядке в приложении, форматируйте строку сами
+//    (например, JSON.stringify(doc, ['restaurant','avgScore']) в JS или аналогичные методы в других языках).
